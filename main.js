@@ -1,6 +1,12 @@
 const { PI, sqrt } = Math;
 
-const digits = 8;
+let digits = 8;
+
+const R = 6371008.8;
+const feet = 0.3048;
+const inch = 0.0254;
+const mile = 1609.344;
+const nm = 1852;
 
 const regex = {
 	number: /^\d+(\.\d+)?/,
