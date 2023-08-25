@@ -15,13 +15,20 @@ const regex = {
 	angleSeparator: /^(\s*[°'"]\s*|\s+)/,
 };
 
-const sin  = (deg) => Math.sin (deg/180*PI);
-const cos  = (deg) => Math.cos (deg/180*PI);
-const tan  = (deg) => Math.tan (deg/180*PI);
-const asin = (sin) => Math.asin(sin)/PI*180;
-const acos = (cos) => Math.acos(cos)/PI*180;
-const atan = (tan) => Math.atan(tan)/PI*180;
-const round = (val) => Number(val.toFixed(digits));
+const RAD = 180/PI;
+const IRAD = PI/180;
+
+const sin  = (deg) => Math.sin(deg*IRAD);
+const cos  = (deg) => Math.cos(deg*IRAD);
+const tan  = (deg) => Math.tan(deg*IRAD);
+const asin = (sin) => Math.asin(sin)*RAD;
+const acos = (cos) => Math.acos(cos)*RAD;
+const atan = (tan) => Math.atan(tan)*RAD;
+
+const round = (val) => {
+	return Number(val.toFixed(digits));
+};
+
 const toMin = (deg) => {
 	const abs = Math.abs(deg);
 	const totalMin = Number((abs*60).toFixed(1));
@@ -154,4 +161,11 @@ const parseAngle = (stream) => {
 		return NaN;
 	}
 	return isNegative ? - sum : sum;
+};
+
+const calcAzm = (...args) => {
+    const [ lat1, lon1, lat2, lon2 ] = args.flat();
+    const v = coordToVec(lat2, lon2 - lon1);
+    const [ x, y ] = rotX(v, -lat1);
+    return calcUAngle(y, x);
 };
