@@ -84,6 +84,19 @@ const normalizeVec = (...args) => {
     return v.map(val => val/l);
 };
 
+const coordInterp = (...args) => {
+    const [ lat1, lon1, lat2, lon2, t ] = args.flat();
+    const v1 = coordToVec(lat1, lon1);
+    const v2 = coordToVec(lat2, lon2);
+    const halfChord = vecDist(v1, v2)/2;
+    const l = sqrt(1 - halfChord**2);
+    const theta = asin(halfChord);
+    const s = l*tan(theta*(1 - 2*t));
+    const t2 = (1 - s/halfChord)/2;
+    const v3 = v1.map((_, i) => v1[i] + (v2[i] - v1[i])*t2);
+    return vecToCoord(normalize(v3));
+};
+
 const haversine = (...args) => {
 	const [ lat1, lon1, lat2, lon2, radius = 180/PI ] = args.flat();
 	return acos(
