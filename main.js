@@ -94,7 +94,7 @@ const coordInterp = (...args) => {
     const s = l*tan(theta*(1 - 2*t));
     const t2 = (1 - s/halfChord)/2;
     const v3 = v1.map((_, i) => v1[i] + (v2[i] - v1[i])*t2);
-    return vecToCoord(normalize(v3));
+    return vecToCoord(normalizeVec(v3));
 };
 
 const haversine = (...args) => {
