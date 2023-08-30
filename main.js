@@ -65,6 +65,25 @@ const vecToCoord = (...args) => {
 	return [ lat, lon ];
 };
 
+const vecDist = (...args) => {
+    const [ ax, ay, az, bx, by, bz ] = args.flat();
+    const dx = bx - ax;
+    const dy = by - ay;
+    const dz = bz - az;
+    return Math.sqrt(dx**2 + dy**2 + dz**2);
+};
+
+const vecLen = (...args) => {
+    const v = args.flat();
+    return vecDist(0, 0, 0, v);
+};
+
+const normalizeVec = (...args) => {
+    const v = args.flat();
+    const l = vecLen(v);
+    return v.map(val => val/l);
+};
+
 const haversine = (...args) => {
 	const [ lat1, lon1, lat2, lon2, radius = 180/PI ] = args.flat();
 	return acos(
