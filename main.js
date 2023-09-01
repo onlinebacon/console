@@ -201,3 +201,16 @@ const calcAzm = (...args) => {
     const [ x, y ] = rotX(v, -lat1);
     return calcUAngle(y, x);
 };
+
+const shoot = (...args) => {
+	const [ lat, lon, azm, dist ] = args.flat();
+	const sinDist = sin(dist);
+	let v = [
+		sin(azm)*sinDist,
+		cos(azm)*sinDist,
+		cos(dist),
+	];
+	v = rotX(v, lat);
+	v = rotY(v, -lon);
+	return vecToCoord(v);
+};
