@@ -172,6 +172,7 @@ const parseAngle = (stream) => {
 		}
 		const suffix = stream.match(regex.angleSeparator)?.[0]?.trim();
 		if (suffix == null) {
+			sum += parsedNumber*currentUnit;
 			break;
 		}
 		stream = stream.replace(regex.angleSeparator, '');
