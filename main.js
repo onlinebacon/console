@@ -1,4 +1,4 @@
-const { PI, sqrt } = Math;
+const { PI, abs, sqrt } = Math;
 
 let digits = 8;
 
@@ -214,4 +214,31 @@ const shoot = (...args) => {
 	v = rotX(v, lat);
 	v = rotY(v, -lon);
 	return vecToCoord(v);
+};
+
+const findroot = (f, min, max, minErr = 1e-15, maxIt = 1000) => {
+	let err = max - min;
+	let m = min + (max - min)/2;
+	let mv = abs(f(m));
+	while (maxIt > 0 && err > minErr) {
+		const a = m - err/2;
+		const b = m + err/2;
+		const av = abs(f(a));
+		const bv = abs(f(b));
+		let r, rv;
+		if (av <= bv) {
+			r = a;
+			rv = av;
+		} else {
+			r = b;
+			rv = bv;
+		}
+		if (rv < mv) {
+			m = r;
+			mv = rv;
+		}
+		-- maxIt;
+		err /= 2;
+	}
+	return m;
 };
